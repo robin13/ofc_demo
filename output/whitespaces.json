@@ -1,0 +1,31 @@
+{
+   "tooltip" : null,
+   "y_axis" : {
+      "steps" : 100,
+      "min" : 0,
+      "max" : 200
+   },
+   "x_axis" : {
+      "labels" : {
+         "labels" : [
+            "sp",
+            "nl",
+            "cr"
+         ]
+      }
+   },
+   "elements" : [
+      {
+         "type" : "bar",
+         "values" : [
+            178,
+            1,
+            0
+         ]
+      }
+   ],
+   "bg_colour" : "f8f8d8",
+   "title" : {
+      "text" : "Whitespaces"
+   }
+}

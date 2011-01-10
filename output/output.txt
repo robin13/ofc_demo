@@ -1,0 +1,48 @@
+Letter distribution in text
+i            =>  109
+e            =>  105
+s            =>  103
+u            =>   94
+a            =>   83
+t            =>   80
+n            =>   73
+r            =>   57
+l            =>   54
+m            =>   49
+c            =>   45
+o            =>   40
+p            =>   32
+d            =>   29
+g            =>   19
+q            =>   13
+v            =>   12
+b            =>    6
+f            =>    5
+h            =>    3
+j            =>    2
+
+Words lengths found in text
+1            =>    2
+2            =>   22
+3            =>   18
+4            =>   23
+5            =>   33
+6            =>   20
+7            =>   12
+8            =>   12
+9            =>   20
+10           =>    3
+11           =>   10
+12           =>    3
+
+Letter types
+lower        =>  994
+punctuation  =>   36
+upper        =>   19
+number       =>    0
+other        =>    0
+
+Whitspaces
+sp           =>  178
+nl           =>    1
+cr           =>    0

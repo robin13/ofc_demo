@@ -1,0 +1,35 @@
+{
+   "tooltip" : null,
+   "y_axis" : {
+      "steps" : 100,
+      "min" : 0,
+      "max" : 1000
+   },
+   "x_axis" : {
+      "labels" : {
+         "labels" : [
+            "lower",
+            "punctuation",
+            "upper",
+            "number",
+            "other"
+         ]
+      }
+   },
+   "elements" : [
+      {
+         "type" : "bar",
+         "values" : [
+            994,
+            36,
+            19,
+            0,
+            0
+         ]
+      }
+   ],
+   "bg_colour" : "f8f8d8",
+   "title" : {
+      "text" : "Letter types"
+   }
+}

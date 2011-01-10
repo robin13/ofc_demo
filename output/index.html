@@ -1,0 +1,40 @@
+<html>
+<script type="text/javascript" src="js/swfobject.js"></script>
+  <div id="letter-distribution"></div>
+  <div id="word-lengths"></div>
+
+  <div id="whitespaces"></div>
+  <div id="letter-types"></div>
+
+  <script type="text/javascript">
+    swfobject.embedSWF(
+    "open-flash-chart.swf", "letter-distribution", "600", "400",
+    "9.0.0", "expressInstall.swf",
+    {"data-file":"letter-distribution.json"}
+    );
+  </script>
+
+  <script type="text/javascript">
+    swfobject.embedSWF(
+    "open-flash-chart.swf", "word-lengths", "600", "400",
+    "9.0.0", "expressInstall.swf",
+    {"data-file":"word-lengths.json"}
+    );
+  </script>
+
+  <script type="text/javascript">
+    swfobject.embedSWF(
+    "open-flash-chart.swf", "whitespaces", "600", "400",
+    "9.0.0", "expressInstall.swf",
+    {"data-file":"whitespaces.json"}
+    );
+  </script>
+
+  <script type="text/javascript">
+    swfobject.embedSWF(
+    "open-flash-chart.swf", "letter-types", "600", "400",
+    "9.0.0", "expressInstall.swf",
+    {"data-file":"letter-types.json"}
+    );
+  </script>
+</html>
