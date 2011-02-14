@@ -1,30 +1,38 @@
 {
    "tooltip" : null,
-   "y_axis" : {
-      "steps" : 100,
-      "min" : 0,
-      "max" : 1000
-   },
-   "x_axis" : {
-      "labels" : {
-         "labels" : [
-            "lower",
-            "punctuation",
-            "upper",
-            "number",
-            "other"
-         ]
-      }
-   },
+   "y_axis" : {},
+   "x_axis" : {},
    "elements" : [
       {
-         "type" : "bar",
+         "tip" : "#val# of #total#<br>#percent# of 100%",
+         "colours" : [
+            "#d01f3c",
+            "#356aa0",
+            "#C79810",
+            "#73880A"
+         ],
+         "type" : "pie",
          "values" : [
-            994,
-            36,
-            19,
-            0,
-            0
+            {
+               "value" : 994,
+               "label" : "lower"
+            },
+            {
+               "value" : 36,
+               "label" : "punctuation"
+            },
+            {
+               "value" : 19,
+               "label" : "upper"
+            },
+            {
+               "value" : 0,
+               "label" : "number"
+            },
+            {
+               "value" : 0,
+               "label" : "other"
+            }
          ]
       }
    ],

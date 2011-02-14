@@ -1,7 +1,9 @@
 package OutputResults;
 use strict;
 use warnings;
+use lib '../chart_ofc2/lib';
 use Chart::OFC2;
+use Chart::OFC2::Pie;
 use File::Spec::Functions;
 use Data::Dumper;
 
@@ -73,32 +75,41 @@ sub ofc2{
     # Do the letter distribution
     my @labels = sort{ $results->{letter_distribution}->{$b} <=> $results->{letter_distribution}->{$a} }
       keys( %{ $results->{letter_distribution} } );
-    $self->_write_chart( \@labels, $results->{letter_distribution}, 'Letter distribution' );
+    $self->_write_chart( labels => \@labels,
+                         data   => $results->{letter_distribution},
+                         name   => 'Letter distribution' );
 
     @labels = sort{ $a <=> $b } 
       keys( %{ $results->{word_lengths} } );
-    $self->_write_chart( \@labels, $results->{word_lengths}, 'Word lengths' );
+    $self->_write_chart( labels   => \@labels,
+                         data     => $results->{word_lengths},
+                         name     => 'Word lengths' );
 
     @labels = sort{ $results->{letter_types}->{$b} <=> $results->{letter_types}->{$a} }
       keys( %{ $results->{letter_types} } );
-    $self->_write_chart( \@labels, $results->{letter_types}, 'Letter types' );
+    $self->_write_chart( labels      => \@labels,
+                         data        => $results->{letter_types},
+                         name        => 'Letter types',
+                         type        => 'pie', );
 
     @labels = sort{ $results->{whitespaces}->{$b} <=> $results->{whitespaces}->{$a} }
       keys( %{ $results->{whitespaces} } );
-    $self->_write_chart( \@labels, $results->{whitespaces}, 'Whitespaces' );
+    $self->_write_chart( labels     => \@labels,
+                         data       => $results->{whitespaces},
+                         name       => 'Whitespaces',
+                         type       => 'pie' );
 }
 
 sub _write_chart{
-    my( $self, $labels, $data, $name ) = @_;
-
-    printf "Generating graph for %s\n", $name;
+    my( $self, %chart_info ) = @_;
+    printf "Generating graph for %s\n", $chart_info{name};
 
     # Find out the best steps so the graph looks nice (no bunched labels)
     my $max = 0;
     my $steps = 1;
-    foreach( keys( %{ $data } ) ){
-        if( $data->{$_} > $max ){
-            $max = $data->{$_};
+    foreach( keys( %{ $chart_info{data} } ) ){
+        if( $chart_info{data}->{$_} > $max ){
+            $max = $chart_info{data}->{$_};
         }
     }
     while( $max > 10 ){
@@ -106,27 +117,40 @@ sub _write_chart{
         $max /= 10;
     }
 
-    my $chart = Chart::OFC2->new(
-        title  => $name,
-        x_axis => {
-            labels => {
-                labels => $labels,
-            },
-           },
-        y_axis => { min   => 0,
-                    max   => 'a',
-                    steps => $steps,
-                },
-       );
+    my $chart = undef;
+    if( $chart_info{type} && $chart_info{type} eq 'pie' ){
+        my @colours = qw{d01f3c 356aa0 C79810 73880A D15600 D15600};
+        my @colours_selected;
+        while( scalar( @colours_selected ) > scalar( @{ $chart_info{labels} } ) ){
+            foreach( 0 .. $#colours ){
+                push( @colours_selected, '#' . $colours[$_] );
+            }
+        }
 
-    my $bar = Chart::OFC2::Bar->new();
-    $bar->values( [ map{ $data->{$_} } @{ $labels } ] );
-    $chart->add_element( $bar );
+        $chart = Chart::OFC2->new( title  => $chart_info{name} );
+        my $pie = Chart::OFC2::Pie->new(  tip => '#val# of #total#<br>#percent# of 100%' );
+        $pie->values( [ map{ $chart_info{data}->{$_} } @{ $chart_info{labels} } ] );
+        $pie->values->labels( $chart_info{labels} );
+        $pie->values->colours([ '#d01f3c', '#356aa0', '#C79810', '#73880A' ]);
+        $chart->add_element( $pie );
+    }else{
+        $chart = Chart::OFC2->new( 'title'  => $chart_info{name},
+                                   'x_axis' => { labels => { labels => $chart_info{labels}, } },
+                                   'y_axis' => { min   => 0,
+                                                 max   => 'a',
+                                                 steps => $steps,
+                                            },
+                                 );
+        my $bar = Chart::OFC2::Bar->new();
+        $bar->values( [ map{ $chart_info{data}->{$_} } @{ $chart_info{labels} } ] );
+        $chart->add_element( $bar );
+    }
 
-    my $chart_name = lc( $name );
+
+    my $chart_name = lc( $chart_info{name} );
     $chart_name =~ s/ /-/g;
     my $outfile = catfile( $self->{out_dir}, $chart_name . '.json' );
-    printf "Writing %s to %s\n", $name, $outfile;
+printf "Writing %s to %s\n", $chart_info{name}, $outfile;
     my $fh = IO::File->new( $outfile, 'w' );
     print $fh $chart->render_chart_data();
     $fh->close();

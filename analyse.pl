@@ -9,12 +9,15 @@ use IO::File;
 
 my $out_dir = 'output';
 my $args;
-GetOptions( 'in=s'     => \$args->{in},
-            'output=s' => \$args->{output} );
+GetOptions( 'in=s'      => \$args->{in},
+            'out_dir=s' => \$args->{out_dir} );
 
 if( ! $args->{in} || ! -f $args->{in} ){
     die( "in not defined, or not a file\n" );
 }
+
+$out_dir ||= $args->{out_dir};
+
 my $analyser = AnalyseText->new();
 
 print "Analyising text...\n";
